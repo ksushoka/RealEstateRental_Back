@@ -6,6 +6,12 @@ import com.example.realestaterental.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -34,7 +40,47 @@ public class UserService {
 
     public void deleteUserById(Integer id) {
         User user = userRepository.findById(id).orElse(null);
-        userRepository.delete(user);
+        if (user != null) {
+            if (user.getPhotoPath() != null && !user.getPhotoPath().isEmpty()) {
+                String filePathStr = user.getPhotoPath();
+                if (filePathStr.startsWith("/")) {
+                    filePathStr = filePathStr.substring(1);
+                }
+                Path filePath = Paths.get(filePathStr);
+                try {
+                    Files.deleteIfExists(filePath);
+                    System.out.println("Photo of user remotely: " + filePath.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            userRepository.delete(user);
+        }
+    }
+
+
+    public List<User> getAll(){
+        return userRepository.findAll();
+    }
+
+    public void deleteUserByName(String userName) {
+        User user = userRepository.findByUsername(userName).orElse(null);
+        if (user != null) {
+            if (user.getPhotoPath() != null && !user.getPhotoPath().isEmpty()) {
+                String filePathStr = user.getPhotoPath();
+                if (filePathStr.startsWith("/")) {
+                    filePathStr = filePathStr.substring(1);
+                }
+                Path filePath = Paths.get(filePathStr);
+                try {
+                    Files.deleteIfExists(filePath);
+                    System.out.println("Фото пользователя удалено: " + filePath.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            userRepository.delete(user);
+        }
     }
 
 }
