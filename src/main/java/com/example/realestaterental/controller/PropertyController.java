@@ -56,12 +56,14 @@ public class PropertyController {
             @RequestParam String title,
             @RequestParam String description,
             @RequestParam Double pricePerNight,
+            @RequestParam String location,
             @RequestParam("photos") MultipartFile[] photos) throws IOException {
 
         Property property = new Property();
         property.setTitle(title);
         property.setDescription(description);
         property.setPricePerNight(pricePerNight);
+        property.setLocation(location);
 
         List<Photo> photoList = new ArrayList<>();
         for (MultipartFile photo : photos) {

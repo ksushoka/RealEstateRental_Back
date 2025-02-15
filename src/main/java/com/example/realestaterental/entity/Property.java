@@ -18,6 +18,7 @@ public class Property {
     private String title;
     private String description;
     private Double pricePerNight;
+    private String location;
 
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Photo> photos = new ArrayList<>();
