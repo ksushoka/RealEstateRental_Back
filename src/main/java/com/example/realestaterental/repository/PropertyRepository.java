@@ -11,7 +11,7 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
     @Query("SELECT p FROM Property p " +
             "WHERE (:minPrice IS NULL OR p.pricePerNight >= :minPrice) " +
             "AND (:maxPrice IS NULL OR p.pricePerNight <= :maxPrice) " +
-            "AND (:location IS NULL OR p.description LIKE %:location%) ")
+            "AND (:location IS NULL OR p.location LIKE %:location%) ")
 //            +
 //            "AND (:amenities IS NULL OR EXISTS (SELECT a FROM p.amenities a WHERE a.name IN :amenities))")
     List<Property> findWithFilters(@Param("minPrice") Double minPrice,
