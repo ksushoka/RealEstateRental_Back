@@ -26,19 +26,19 @@ public class Property {
     @ManyToOne
     @JoinColumn(name = "host_id")
     private User host;
-}
 
 //    @OneToMany(mappedBy = "property")
 //    private List<Booking> bookings;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "property_amenity",
-//            joinColumns = @JoinColumn(name = "property_id"),
-//            inverseJoinColumns = @JoinColumn(name = "amenity_id")
-//    )
-//    private List<Amenity> amenities;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "property_amenity",
+            joinColumns = @JoinColumn(name = "property_id"),
+            inverseJoinColumns = @JoinColumn(name = "amenity_id")
+    )
+    private List<Amenity> amenities = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "property")
 //    private List<Photo> photos;
 //}
+}

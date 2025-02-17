@@ -107,5 +107,12 @@ public class PropertyController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(photoFileNames);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Property> getPropertyDetails(@PathVariable Long id) {
+        Property property = propertyRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Property not found"));
+        return ResponseEntity.ok(property);
+    }
 }
 
