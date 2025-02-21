@@ -1,9 +1,9 @@
 package com.example.realestaterental.entity;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,13 +30,13 @@ public class Property {
 //    @OneToMany(mappedBy = "property")
 //    private List<Booking> bookings;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "property_amenity",
-            joinColumns = @JoinColumn(name = "property_id"),
-            inverseJoinColumns = @JoinColumn(name = "amenity_id")
-    )
-    private List<Amenity> amenities = new ArrayList<>();
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "property_amenity",
+//            joinColumns = @JoinColumn(name = "property_id"),
+//            inverseJoinColumns = @JoinColumn(name = "amenity_id")
+//    )
+//    private List<Amenity> amenities = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "property")
 //    private List<Photo> photos;

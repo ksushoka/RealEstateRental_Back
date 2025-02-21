@@ -1,6 +1,6 @@
 package com.example.realestaterental.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 public class Review {
