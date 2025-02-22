@@ -26,12 +26,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors().disable()
+//                .cors().disable()
                 .csrf().disable()
                 .authorizeHttpRequests(
                         urlConfig -> urlConfig
                                 .antMatchers("/login", "/registration").permitAll()
                                 .antMatchers("/api/v*/registration/**", "/api/v1/login").permitAll()
+                                .antMatchers("/properties","/properties/photos/**",
+                                        "users/all","/properties/**").permitAll()
 //                                .antMatchers("").hasAuthority(Role.ADMIN.getAuthority())
 //                                .antMatchers("").hasAuthority(Role.USER.getAuthority())
                                 .anyRequest().authenticated()
@@ -39,10 +41,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout(logout ->
                         logout.logoutUrl("/logout")
                                 .logoutSuccessUrl("/login")
-                                .deleteCookies("JSESSIONID"))
-                .formLogin(login -> login
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/"));
+                                .deleteCookies("JSESSIONID"));
+//                .formLogin(login -> login
+//                        .loginPage("/login")
+//                        .defaultSuccessUrl("/"));
     }
 
     @Bean

@@ -2,11 +2,13 @@ package com.example.realestaterental.controller;
 
 import com.example.realestaterental.entity.Photo;
 import com.example.realestaterental.entity.Property;
+import com.example.realestaterental.entity.User;
 import com.example.realestaterental.repository.PropertyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -57,13 +59,16 @@ public class PropertyController {
             @RequestParam String description,
             @RequestParam Double pricePerNight,
             @RequestParam String location,
-            @RequestParam("photos") MultipartFile[] photos) throws IOException {
+            @RequestParam("photos") MultipartFile[] photos,
+            @AuthenticationPrincipal User user
+            ) throws IOException {
 
         Property property = new Property();
         property.setTitle(title);
         property.setDescription(description);
         property.setPricePerNight(pricePerNight);
         property.setLocation(location);
+        property.setHost(user);
 
         List<Photo> photoList = new ArrayList<>();
         for (MultipartFile photo : photos) {

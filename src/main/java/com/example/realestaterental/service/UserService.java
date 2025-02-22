@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -97,6 +98,9 @@ public class UserService implements UserDetailsService {
 //        newUser.setPassword(request.getPassword());
 //        return newUser;
 //    }
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
     public void enableUser(String email) {
         userRepository.enableUser(email);
