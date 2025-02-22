@@ -18,7 +18,6 @@ public class LoginService {
 
     public ApiResponse<String> login(LoginRequest loginRequest) {
         ApiResponse<String> response;
-
         if (!StringUtils.hasText(loginRequest.getUsername()) || !StringUtils.hasText(loginRequest.getPassword())) {
             return ApiResponse.error("Username or password is empty");
         }

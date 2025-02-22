@@ -12,9 +12,6 @@ import org.hibernate.usertype.UserType;
 @NoArgsConstructor
 public class RegistrationRequest {
     private String username;
-//    private String firstname;
-//    private String lastname;
     private String email;
     private String password;
-//    private UserType type;
 }
