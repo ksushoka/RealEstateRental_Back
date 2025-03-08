@@ -1,5 +1,6 @@
 package com.example.realestaterental.entity;
 
+import com.example.realestaterental.entity.type.AmenityType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,6 +28,12 @@ public class Property {
     @JoinColumn(name = "host_id")
     private User host;
 
+    @ElementCollection
+    private List<AmenityType> amenityTypes = new ArrayList<>();
+
+//    public void addAmenityType(List<AmenityType> amenityType){
+//        this.amenityTypes.addAll(amenityType);
+//    }
 //    @OneToMany(mappedBy = "property")
 //    private List<Booking> bookings;
 

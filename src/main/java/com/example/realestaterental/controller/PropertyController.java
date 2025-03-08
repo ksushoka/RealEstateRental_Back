@@ -3,6 +3,7 @@ package com.example.realestaterental.controller;
 import com.example.realestaterental.entity.Photo;
 import com.example.realestaterental.entity.Property;
 import com.example.realestaterental.entity.User;
+import com.example.realestaterental.entity.type.AmenityType;
 import com.example.realestaterental.repository.PropertyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -59,6 +60,7 @@ public class PropertyController {
             @RequestParam String description,
             @RequestParam Double pricePerNight,
             @RequestParam String location,
+            @RequestParam List<AmenityType> amenityTypes,
             @RequestParam("photos") MultipartFile[] photos,
             @AuthenticationPrincipal User user
             ) throws IOException {
@@ -68,6 +70,7 @@ public class PropertyController {
         property.setDescription(description);
         property.setPricePerNight(pricePerNight);
         property.setLocation(location);
+        property.setAmenityTypes(amenityTypes);
         property.setHost(user);
 
         List<Photo> photoList = new ArrayList<>();

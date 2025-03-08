@@ -61,7 +61,7 @@ public class RegistrationService {
         confirmationTokenService.setConfirmedAt(token);
         userService.enableUser(
                 confirmationTokenEntity.getUser().getEmail());
-        return "confirmed";
+        return "Регистрация успешно завершена. Перейдите на сайт и войдите.";
     }
     private String buildEmail(String name, String link) {
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
