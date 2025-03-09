@@ -1,6 +1,7 @@
 package com.example.realestaterental.service;
 
 import com.example.realestaterental.entity.User;
+import com.example.realestaterental.entity.type.Role;
 import com.example.realestaterental.registration.RegistrationRequest;
 import com.example.realestaterental.registration.token.ConfirmationTokenEntity;
 import com.example.realestaterental.registration.token.ConfirmationTokenService;
@@ -8,6 +9,7 @@ import com.example.realestaterental.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,6 +31,10 @@ public class UserService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
 //    @Override
 //    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 //        return userRepository.findByUsername(username)
@@ -37,19 +43,11 @@ public class UserService implements UserDetailsService {
 //    }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        if (!user.isEnabled()) {
-            throw new UsernameNotFoundException("User not activated");
-        }
-
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                Collections.emptyList()
-        );
+        return user; // Возвращаем напрямую вашу сущность User
     }
 
     public String signUpUser(RegistrationRequest registrationRequest) {
@@ -70,6 +68,7 @@ public class UserService implements UserDetailsService {
         user.setPassword(encodedPassword);
         user.setUsername(registrationRequest.getUsername());
         user.setEmail(registrationRequest.getEmail());
+        user.setRole(Role.USER);
         userRepository.save(user);
 
         String token = UUID.randomUUID().toString();

@@ -14,7 +14,7 @@ spring:
           auto: update
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-    show-sql: true
+    show-sql: false
 
   mail:
     host: smtp.gmail.com

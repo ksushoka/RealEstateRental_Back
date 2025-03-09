@@ -1,12 +1,15 @@
 package com.example.realestaterental.entity;
 
 import com.example.realestaterental.entity.type.AmenityType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -26,26 +29,10 @@ public class Property {
 
     @ManyToOne
     @JoinColumn(name = "host_id")
+    @JsonBackReference
     private User host;
 
-    @ElementCollection
-    private List<AmenityType> amenityTypes = new ArrayList<>();
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<AmenityType> amenityTypes = new HashSet<>();
 
-//    public void addAmenityType(List<AmenityType> amenityType){
-//        this.amenityTypes.addAll(amenityType);
-//    }
-//    @OneToMany(mappedBy = "property")
-//    private List<Booking> bookings;
-
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "property_amenity",
-//            joinColumns = @JoinColumn(name = "property_id"),
-//            inverseJoinColumns = @JoinColumn(name = "amenity_id")
-//    )
-//    private List<Amenity> amenities = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "property")
-//    private List<Photo> photos;
-//}
 }

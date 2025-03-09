@@ -12,7 +12,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
@@ -21,30 +28,46 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    private final JwtRequestFilter jwtRequestFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//                .cors().disable()
+                .cors().and()
                 .csrf().disable()
-                .authorizeHttpRequests(
-                        urlConfig -> urlConfig
-                                .antMatchers("/login", "/registration").permitAll()
-                                .antMatchers("/api/v*/registration/**", "/api/v1/login").permitAll()
-                                .antMatchers("/properties","/properties/photos/**",
-                                        "users/all","/properties/**").permitAll()
-//                                .antMatchers("").hasAuthority(Role.ADMIN.getAuthority())
-//                                .antMatchers("").hasAuthority(Role.USER.getAuthority())
-                                .anyRequest().authenticated()
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .logout(logout ->
-                        logout.logoutUrl("/logout")
-                                .logoutSuccessUrl("/login")
-                                .deleteCookies("JSESSIONID"));
-//                .formLogin(login -> login
-//                        .loginPage("/login")
-//                        .defaultSuccessUrl("/"));
+                .authorizeHttpRequests(auth -> auth
+                        .antMatchers("/login", "/registration",
+                                "/api/v*/registration/**",
+                                "/api/v1/login").permitAll()
+                        .antMatchers("/properties", "/properties/photos/**", "/users/all").permitAll()
+                        .antMatchers("/addProperty").hasRole("USER")
+                        .antMatchers("/properties/**")
+                        .authenticated()
+                        .anyRequest().authenticated()
+                )
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login")
+                        .deleteCookies("JSESSIONID")
+                );
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+        configuration.addExposedHeader("Authorization");
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean

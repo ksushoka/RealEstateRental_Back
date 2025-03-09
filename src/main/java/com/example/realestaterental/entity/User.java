@@ -1,6 +1,8 @@
 package com.example.realestaterental.entity;
 
 import com.example.realestaterental.entity.type.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,17 +48,17 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
@@ -68,6 +70,7 @@ public class User implements UserDetails {
 //    @OneToMany(mappedBy = "guest")
 //    private List<Booking> bookings;
 
-//    @OneToMany(mappedBy = "host")
-//    private List<Property> properties;
+    @OneToMany(mappedBy = "host")
+    @JsonIgnore
+    private List<Property> properties;
 }
