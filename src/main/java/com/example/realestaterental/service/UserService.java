@@ -1,10 +1,12 @@
 package com.example.realestaterental.service;
 
+import com.example.realestaterental.entity.Property;
 import com.example.realestaterental.entity.User;
 import com.example.realestaterental.entity.type.Role;
 import com.example.realestaterental.registration.RegistrationRequest;
 import com.example.realestaterental.registration.token.ConfirmationTokenEntity;
 import com.example.realestaterental.registration.token.ConfirmationTokenService;
+import com.example.realestaterental.repository.PropertyRepository;
 import com.example.realestaterental.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,6 +32,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
+    private final PropertyRepository propertyRepository;
 
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username)
@@ -85,6 +88,10 @@ public class UserService implements UserDetailsService {
 
 
         return token;
+    }
+
+    public List<Property> getUserProperties(Integer userId) {
+        return propertyRepository.findByHostId(userId);
     }
 
 //    private static User setAttributeForUSer(RegistrationRequest request) {

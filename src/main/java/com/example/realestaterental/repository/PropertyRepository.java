@@ -19,6 +19,8 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
                                    @Param("location") String location);
 //                                   @Param("amenities") List<String> amenities
 //    );
+
+    List<Property> findByHostId(Integer id);
 }
 
 

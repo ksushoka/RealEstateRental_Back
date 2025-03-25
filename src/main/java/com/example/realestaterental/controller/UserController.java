@@ -1,5 +1,6 @@
 package com.example.realestaterental.controller;
 
+import com.example.realestaterental.entity.Property;
 import com.example.realestaterental.entity.User;
 import com.example.realestaterental.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,11 @@ public class UserController {
     @GetMapping("/all")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @GetMapping("/{userId}/properties")
+    public List<Property> getUserProperties(@PathVariable Integer userId) {
+        return userService.getUserProperties(userId);
     }
 //    @GetMapping("/{id}")
 //    public User getUserById(@PathVariable("id") Integer id){
