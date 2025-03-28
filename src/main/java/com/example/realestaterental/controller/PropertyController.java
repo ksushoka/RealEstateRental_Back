@@ -34,7 +34,7 @@ public class PropertyController {
     ) {
         return propertyService.getProperties(minPrice, maxPrice, location);
     }
-@PatchMapping
+
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Property> addProperty(
             @RequestParam String title,
