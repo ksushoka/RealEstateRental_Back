@@ -1,8 +1,15 @@
 package com.example.realestaterental.entity;
 
+import com.example.realestaterental.entity.type.StatusType;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,8 +23,12 @@ public class Booking {
     @JoinColumn(name = "property_id")
     private Property property;
 
-    private String checkInDate;
-    private String checkOutDate;
+    private LocalDateTime checkInDate;
+    private LocalDateTime checkOutDate;
+    private LocalDateTime bookingDate;
+
+    @Enumerated(EnumType.STRING)
+    private StatusType status;//confirmed\cancelled
 //
 //    @OneToOne(mappedBy = "booking")
 //    private Payment payment;

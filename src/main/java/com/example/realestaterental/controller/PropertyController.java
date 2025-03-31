@@ -46,7 +46,6 @@ public class PropertyController {
             @AuthenticationPrincipal User userPrincipal
     ) throws IOException {
         User user = userService.getUserByUsername(userPrincipal.getUsername());
-        System.out.println("lol " + user.getUsername());
 //
         Property property = propertyService.addProperty(title, description, pricePerNight, location, amenityTypes, photos, user);
         return ResponseEntity.ok(property);
