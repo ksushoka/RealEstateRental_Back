@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
@@ -21,7 +22,7 @@ public class BookingService {
     private final UserRepository userRepository;
 
     private final PropertyRepository propertyRepository;
-    public Booking bookProperty(User guest, Long propertyId, LocalDateTime checkInDate, LocalDateTime checkOutDate) {
+    public Booking bookProperty(User guest, Long propertyId, LocalDate checkInDate, LocalDate checkOutDate) {
         Property property = propertyRepository.findById(propertyId).get();
         Booking booking = new Booking();
         booking.setBookingDate(LocalDateTime.now());

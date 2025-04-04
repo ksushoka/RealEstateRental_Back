@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,8 +24,8 @@ public class Booking {
     @JoinColumn(name = "property_id")
     private Property property;
 
-    private LocalDateTime checkInDate;
-    private LocalDateTime checkOutDate;
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
     private LocalDateTime bookingDate;
 
     @Enumerated(EnumType.STRING)

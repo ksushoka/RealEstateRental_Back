@@ -36,8 +36,12 @@ public class User implements UserDetails {
     private String photoPath;
 
     private String email;
+
     @OneToMany(mappedBy = "guest")
+    @JsonIgnore
     private List<Booking> bookings;
+//    @OneToMany(mappedBy = "guest")
+//    private List<Booking> bookings;
 
     @Enumerated(EnumType.STRING)
     private Role role;

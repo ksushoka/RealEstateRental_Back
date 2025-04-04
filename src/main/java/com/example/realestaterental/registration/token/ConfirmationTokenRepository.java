@@ -11,8 +11,8 @@ import java.util.Optional;
 
 @Repository
 @Transactional(readOnly = true)
-public interface ConfirmationTokenRepository
-        extends JpaRepository<ConfirmationTokenEntity, Long> {
+public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationTokenEntity, Long> {
+    
     Optional<ConfirmationTokenEntity> findByToken(String token);
 
     @Transactional
