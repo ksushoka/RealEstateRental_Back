@@ -6,6 +6,7 @@ import com.example.realestaterental.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +32,12 @@ public class UserController {
     @GetMapping("/{userId}/properties")
     public List<Property> getUserProperties(@PathVariable Integer userId) {
         return userService.getUserProperties(userId);
+    }
+
+    @GetMapping("/properties")
+    public List<Property> getUserProperties(@AuthenticationPrincipal User userPrincipal) {
+        User user = userService.getUserByUsername(userPrincipal.getUsername());
+        return userService.getUserProperties(user.getId());
     }
 //    @GetMapping("/{id}")
 //    public User getUserById(@PathVariable("id") Integer id){

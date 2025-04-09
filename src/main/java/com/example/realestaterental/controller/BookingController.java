@@ -4,6 +4,7 @@ import com.example.realestaterental.entity.Booking;
 import com.example.realestaterental.entity.User;
 import com.example.realestaterental.service.BookingService;
 import com.example.realestaterental.service.UserService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +22,6 @@ import java.time.LocalDateTime;
 public class BookingController {
     private final BookingService bookingService;
     private final UserService userService;
-
     @PostMapping("/save")
     public ResponseEntity<Booking> bookProperty(
             @AuthenticationPrincipal User userPrincipal,
@@ -30,5 +31,10 @@ public class BookingController {
 
         User user = userService.getUserByUsername(userPrincipal.getUsername());
         return ResponseEntity.ok(bookingService.bookProperty(user, propertyId, checkInDate, checkOutDate));
+    }
+    @GetMapping("/all")
+    public ResponseEntity<List<Booking>> getAllBookings(@AuthenticationPrincipal User userPrincipal) {
+        User user = userService.getUserByUsername(userPrincipal.getUsername());
+        return ResponseEntity.ok(bookingService.getBookingsForGuest(user));
     }
 }
