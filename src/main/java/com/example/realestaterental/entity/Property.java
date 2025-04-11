@@ -35,4 +35,6 @@ public class Property {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<AmenityType> amenityTypes = new HashSet<>();
 
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Review> reviews;
 }
