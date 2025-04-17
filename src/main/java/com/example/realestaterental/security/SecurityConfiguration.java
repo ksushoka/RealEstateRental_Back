@@ -44,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                                 "/api/v1/login").permitAll()
                         .antMatchers("/properties", "/properties/photos/**", "/users/all",
                                 "/users/**/properties", "/users/**", "/booking/save", "/booking/all",
-                                "/users/properties").permitAll()
+                                "/users/properties", "/review/save/**").permitAll()
                         .antMatchers("/addProperty").hasRole("USER")
                         .antMatchers("/properties/**")
                         .authenticated()
