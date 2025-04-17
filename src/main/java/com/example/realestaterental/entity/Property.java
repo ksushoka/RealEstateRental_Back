@@ -23,10 +23,6 @@ public class Property {
     private String description;
     private Double pricePerNight;
     private String location;
-
-    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Photo> photos = new ArrayList<>();
-
     @ManyToOne
     @JoinColumn(name = "host_id")
     @JsonBackReference
@@ -35,6 +31,10 @@ public class Property {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<AmenityType> amenityTypes = new HashSet<>();
 
-    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Review> reviews;
+
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Photo> photos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Review> reviews = new ArrayList<>();
 }

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PropertyRepository extends JpaRepository<Property, Long> {
     @Query("SELECT p FROM Property p " +
@@ -21,6 +22,12 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 //    );
 
     List<Property> findByHostId(Integer id);
+
+    @Query("SELECT p FROM Property p LEFT JOIN FETCH p.photos WHERE p.id = :id")
+    Optional<Property> findByIdWithPhotos(@Param("id") Long id);
+
+    @Query("SELECT p FROM Property p LEFT JOIN FETCH p.reviews WHERE p.id = :id")
+    Optional<Property> findByIdWithReviews(@Param("id") Long id);
 }
 
 
