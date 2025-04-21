@@ -18,7 +18,6 @@ public class Review {
     private String comment;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 
