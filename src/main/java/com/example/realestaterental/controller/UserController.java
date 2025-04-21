@@ -1,7 +1,11 @@
 package com.example.realestaterental.controller;
 
+import com.example.realestaterental.dto.PropertyDTO;
+import com.example.realestaterental.dto.UserDTO;
 import com.example.realestaterental.entity.Property;
 import com.example.realestaterental.entity.User;
+import com.example.realestaterental.mapper.PropertyMapper;
+import com.example.realestaterental.mapper.UserMapper;
 import com.example.realestaterental.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,24 +25,35 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
-
+    private final UserMapper userMapper;
     private final UserService userService;
-
+    private final PropertyMapper propertyMapper;
+//    @GetMapping("/all")
+//    public List<User> getAllUsers() {
+//        return userService.getAllUsers();
+//    }
     @GetMapping("/all")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public List<UserDTO> getAllUsers() {
+        return userMapper.toDtoList(userService.getAllUsers());
     }
 
     @GetMapping("/{userId}/properties")
     public List<Property> getUserProperties(@PathVariable Integer userId) {
         return userService.getUserProperties(userId);
     }
+//
+//    @GetMapping("/properties")
+//    public List<Property> getUserProperties(@AuthenticationPrincipal User userPrincipal) {
+//        User user = userService.getUserByUsername(userPrincipal.getUsername());
+//        return userService.getUserProperties(user.getId());
+//    }
 
     @GetMapping("/properties")
-    public List<Property> getUserProperties(@AuthenticationPrincipal User userPrincipal) {
+    public List<PropertyDTO> getUserProperties(@AuthenticationPrincipal User userPrincipal) {
         User user = userService.getUserByUsername(userPrincipal.getUsername());
-        return userService.getUserProperties(user.getId());
+        return propertyMapper.toDtoList(userService.getUserProperties(user.getId()));
     }
+
 //    @GetMapping("/{id}")
 //    public User getUserById(@PathVariable("id") Integer id){
 //        return userService.getUserById(id);

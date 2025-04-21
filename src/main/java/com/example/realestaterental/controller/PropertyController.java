@@ -1,8 +1,10 @@
 package com.example.realestaterental.controller;
 
+import com.example.realestaterental.dto.PropertyDTO;
 import com.example.realestaterental.entity.Property;
 import com.example.realestaterental.entity.User;
 import com.example.realestaterental.entity.type.AmenityType;
+import com.example.realestaterental.mapper.PropertyMapper;
 import com.example.realestaterental.service.PropertyService;
 import com.example.realestaterental.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,14 +27,21 @@ import java.util.Set;
 public class PropertyController {
     private final UserService userService;
     private final PropertyService propertyService;
-
+    private final PropertyMapper propertyMapper;
+//    @GetMapping
+//    public List<Property> getProperties(
+//            @RequestParam(required = false) Double minPrice,
+//            @RequestParam(required = false) Double maxPrice,
+//            @RequestParam(required = false) String location
+//    ) {
+//        return propertyService.getProperties(minPrice, maxPrice, location);
+//    }
     @GetMapping
-    public List<Property> getProperties(
+    public List<PropertyDTO> getProperties(
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice,
-            @RequestParam(required = false) String location
-    ) {
-        return propertyService.getProperties(minPrice, maxPrice, location);
+            @RequestParam(required = false) String location) {
+        return propertyMapper.toDtoList(propertyService.getProperties(minPrice, maxPrice, location));
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -52,10 +61,15 @@ public class PropertyController {
     }
 
 
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Property> getPropertyDetails(@PathVariable Long id) {
+//        Property property = propertyService.getPropertyDetails(id);
+//        return ResponseEntity.ok(property);
+//    }
     @GetMapping("/{id}")
-    public ResponseEntity<Property> getPropertyDetails(@PathVariable Long id) {
+    public ResponseEntity<PropertyDTO> getPropertyDetails(@PathVariable Long id) {
         Property property = propertyService.getPropertyDetails(id);
-        return ResponseEntity.ok(property);
+        return ResponseEntity.ok(propertyMapper.toDto(property));
     }
 
     @GetMapping("/{id}/photos")

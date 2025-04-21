@@ -1,7 +1,9 @@
 package com.example.realestaterental.controller;
 
+import com.example.realestaterental.dto.BookingDTO;
 import com.example.realestaterental.entity.Booking;
 import com.example.realestaterental.entity.User;
+import com.example.realestaterental.mapper.BookingMapper;
 import com.example.realestaterental.service.BookingService;
 import com.example.realestaterental.service.UserService;
 import lombok.Getter;
@@ -22,19 +24,39 @@ import java.util.List;
 public class BookingController {
     private final BookingService bookingService;
     private final UserService userService;
+//    @PostMapping("/save")
+//    public ResponseEntity<Booking> bookProperty(
+//            @AuthenticationPrincipal User userPrincipal,
+//            @RequestParam Long propertyId,
+//            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkInDate,
+//            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOutDate) {
+//
+//        User user = userService.getUserByUsername(userPrincipal.getUsername());
+//        return ResponseEntity.ok(bookingService.bookProperty(user, propertyId, checkInDate, checkOutDate));
+//    }
+//    @GetMapping("/all")
+//    public ResponseEntity<List<Booking>> getAllBookings(@AuthenticationPrincipal User userPrincipal) {
+//        User user = userService.getUserByUsername(userPrincipal.getUsername());
+//        return ResponseEntity.ok(bookingService.getBookingsForGuest(user));
+//    }
+
+    private final BookingMapper bookingMapper;
+
     @PostMapping("/save")
-    public ResponseEntity<Booking> bookProperty(
+    public ResponseEntity<BookingDTO> bookProperty(
             @AuthenticationPrincipal User userPrincipal,
             @RequestParam Long propertyId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkInDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOutDate) {
 
         User user = userService.getUserByUsername(userPrincipal.getUsername());
-        return ResponseEntity.ok(bookingService.bookProperty(user, propertyId, checkInDate, checkOutDate));
+        Booking booking = bookingService.bookProperty(user, propertyId, checkInDate, checkOutDate);
+        return ResponseEntity.ok(bookingMapper.toDto(booking));
     }
+
     @GetMapping("/all")
-    public ResponseEntity<List<Booking>> getAllBookings(@AuthenticationPrincipal User userPrincipal) {
+    public ResponseEntity<List<BookingDTO>> getAllBookings(@AuthenticationPrincipal User userPrincipal) {
         User user = userService.getUserByUsername(userPrincipal.getUsername());
-        return ResponseEntity.ok(bookingService.getBookingsForGuest(user));
+        return ResponseEntity.ok(bookingMapper.toDtoList(bookingService.getBookingsForGuest(user)));
     }
 }

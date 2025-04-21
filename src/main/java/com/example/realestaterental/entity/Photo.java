@@ -16,7 +16,7 @@ public class Photo {
 
     private String fileName;
 
-    @ManyToOne()
+    @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "property_id")
     private Property property;
