@@ -40,8 +40,10 @@ public class PropertyController {
     public List<PropertyDTO> getProperties(
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice,
-            @RequestParam(required = false) String location) {
-        return propertyMapper.toDtoList(propertyService.getProperties(minPrice, maxPrice, location));
+            @RequestParam(required = false) String location
+    ) {
+        List<Property> props = propertyService.getProperties(minPrice, maxPrice, location);
+        return propertyMapper.toDtoList(props);
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
