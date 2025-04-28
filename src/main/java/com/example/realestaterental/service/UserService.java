@@ -52,7 +52,10 @@ public class UserService implements UserDetailsService {
 
         return user; // Возвращаем напрямую вашу сущность User
     }
-
+    public User getUserById(Integer id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
     public String signUpUser(RegistrationRequest registrationRequest) {
         boolean userExists = userRepository
                 .findByUsername(registrationRequest.getUsername())

@@ -36,7 +36,12 @@ public class UserController {
     public List<UserDTO> getAllUsers() {
         return userMapper.toDtoList(userService.getAllUsers());
     }
-
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable("id") Integer id) {
+        User user = userService.getUserById(id);
+        UserDTO dto = userMapper.toDto(user);
+        return ResponseEntity.ok(dto);
+    }
     @GetMapping("/{userId}/properties")
     public List<Property> getUserProperties(@PathVariable Integer userId) {
         return userService.getUserProperties(userId);
