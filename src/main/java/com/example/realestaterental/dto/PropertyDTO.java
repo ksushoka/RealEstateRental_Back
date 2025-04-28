@@ -19,6 +19,7 @@ public class PropertyDTO {
     private Double pricePerNight;
     private String location;
     private Set<AmenityType> amenityTypes;
+    private Double averageRating;
 
     @Setter // Явно указываем сеттер
     private Long hostId;

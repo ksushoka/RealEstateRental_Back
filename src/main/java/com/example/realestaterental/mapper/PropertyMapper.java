@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public interface PropertyMapper {
     @Mapping(target = "hostId", expression = "java(getHostId(property))")
     @Mapping(target = "photos", expression = "java(mapPhotos(property.getPhotos()))")
+    @Mapping(target = "averageRating", expression = "java(propertyService.findAverageReviewForProperty(property.getId()))")
     PropertyDTO toDto(Property property);
 
     default List<String> mapPhotos(List<Photo> photos) {
