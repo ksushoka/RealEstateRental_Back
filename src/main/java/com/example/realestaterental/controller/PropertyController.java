@@ -61,7 +61,10 @@ public class PropertyController {
         Property property = propertyService.addProperty(title, description, pricePerNight, location, amenityTypes, photos, user);
         return ResponseEntity.ok(property);
     }
-
+    @GetMapping("/rating/{id}")
+    public ResponseEntity<Double> findAverageReviewForProperty(@PathVariable Long id){
+        return ResponseEntity.ok(propertyService.findAverageReviewForProperty(id));
+    }
 
 //    @GetMapping("/{id}")
 //    public ResponseEntity<Property> getPropertyDetails(@PathVariable Long id) {

@@ -2,10 +2,12 @@ package com.example.realestaterental.service;
 
 import com.example.realestaterental.entity.Photo;
 import com.example.realestaterental.entity.Property;
+import com.example.realestaterental.entity.Review;
 import com.example.realestaterental.entity.User;
 import com.example.realestaterental.entity.type.AmenityType;
 import com.example.realestaterental.repository.PropertyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,6 +69,16 @@ public class PropertyService {
     public Property getPropertyDetails(Long id) {
         return propertyRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Property not found"));
+    }
+    public double findAverageReviewForProperty(Long id) {
+        Property property = propertyRepository.findById(id).get();
+        List<Review> reviews = property.getReviews();
+        double sum = 0;
+        for (Review review : reviews) {
+           double rating = review.getRating();
+            sum += rating;
+        }
+        return sum / reviews.size();
     }
 
     public List<String> getPhotosByProperty(Long id) {
