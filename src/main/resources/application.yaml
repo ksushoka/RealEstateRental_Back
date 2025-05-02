@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
-    password: 2009
+    password: 1234
     driver-class-name: org.postgresql.Driver
   jpa:
     open-in-view: false
@@ -14,10 +14,30 @@ spring:
           auto: update
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-    show-sql: true
+    show-sql: false
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ksu04072009@gmail.com
+    password: osmmthyfqwmtitzb
+
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: "*"
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
 
 server:
   port: 8080
+
+
 
 
 
