@@ -23,7 +23,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/properties")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://realestaterental-8ce5c.firebaseapp.com/"})
 public class PropertyController {
     private final UserService userService;
     private final PropertyService propertyService;
@@ -61,6 +61,12 @@ public class PropertyController {
         Property property = propertyService.addProperty(title, description, pricePerNight, location, amenityTypes, photos, user);
         return ResponseEntity.ok(property);
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<PropertyDTO> updateProperty(@RequestBody PropertyDTO propertyDTO) {
+        return ResponseEntity.ok(propertyService.updateProperty(propertyDTO));
+    }
+
     @GetMapping("/rating/{id}")
     public ResponseEntity<Double> findAverageReviewForProperty(@PathVariable Long id){
         return ResponseEntity.ok(propertyService.findAverageReviewForProperty(id));
@@ -75,6 +81,11 @@ public class PropertyController {
     public ResponseEntity<PropertyDTO> getPropertyDetails(@PathVariable Long id) {
         Property property = propertyService.getPropertyDetails(id);
         return ResponseEntity.ok(propertyMapper.toDto(property));
+    }
+
+    @GetMapping("/description/{id}")
+    public String getDescriptionById(@PathVariable Long id){
+        return propertyService.getDescriptionById(id);
     }
 
     @GetMapping("/{id}/photos")
