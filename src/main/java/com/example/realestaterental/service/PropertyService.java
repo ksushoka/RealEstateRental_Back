@@ -1,10 +1,12 @@
 package com.example.realestaterental.service;
 
+import com.example.realestaterental.dto.PropertyDTO;
 import com.example.realestaterental.entity.Photo;
 import com.example.realestaterental.entity.Property;
 import com.example.realestaterental.entity.Review;
 import com.example.realestaterental.entity.User;
 import com.example.realestaterental.entity.type.AmenityType;
+import com.example.realestaterental.mapper.PropertyMapper;
 import com.example.realestaterental.repository.PropertyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.relational.core.sql.In;
@@ -26,6 +28,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 public class PropertyService {
+
+    private final PropertyMapper propertyMapper;
 
     private final PropertyRepository propertyRepository;
 
@@ -70,6 +74,22 @@ public class PropertyService {
         return propertyRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Property not found"));
     }
+    public String getDescriptionById(Long id){
+        Property property = propertyRepository.findById(id).get();
+        return property.getDescription();
+    }
+
+    public PropertyDTO updateProperty(PropertyDTO propertyDTO){
+        Property property = propertyRepository.findById(propertyDTO.getId()).get();
+        property.setTitle(propertyDTO.getTitle());
+        property.setDescription(propertyDTO.getDescription());
+        property.setPricePerNight(propertyDTO.getPricePerNight());
+        property.setLocation(propertyDTO.getLocation());
+        property.setAmenityTypes(propertyDTO.getAmenityTypes());
+        propertyRepository.save(property);
+       return propertyMapper.toDto(property);
+    }
+
     public double findAverageReviewForProperty(Long id) {
         Property property = propertyRepository.findById(id).get();
         List<Review> reviews = property.getReviews();
