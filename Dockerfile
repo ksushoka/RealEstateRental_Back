@@ -8,7 +8,6 @@ WORKDIR /application
 COPY --from=builder /application/build/libs/*SNAPSHOT.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 FROM bellsoft/liberica-openjdk-debian:17.0.8
-VOLUME /tmp
 RUN useradd -ms /bin/bash spring-user
 USER spring-user
 WORKDIR /application
