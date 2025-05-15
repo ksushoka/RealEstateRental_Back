@@ -1,11 +1,9 @@
-# syntax=docker/dockerfile:1.4
 FROM bellsoft/liberica-openjdk-debian:17.0.8 AS builder
 WORKDIR /application
 COPY . .
 
-# <-- `id` here MUST begin with `myapp-gradle` to satisfy BuildKit
-RUN --mount=type=cache,id=myapp-gradle-root-grd,target=/root/.gradle \
-    chmod +x gradlew && ./gradlew clean bootJar -x test
+# Без монтирования кеша
+RUN chmod +x gradlew && ./gradlew clean bootJar -x test
 
 FROM bellsoft/liberica-openjdk-debian:17.0.8 AS layers
 WORKDIR /application
