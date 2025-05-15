@@ -33,7 +33,7 @@ public class RegistrationService {
             response = ApiResponse.error("Email already exists");
         } else {
             String token = userService.signUpUser(request);
-            String link = "http://localhost:8080/api/v1/registration/confirm?token=" + token;
+            String link = "https://realestaterentalback-production.up.railway.app/api/v1/registration/confirm?token=" + token;
             emailSender.send(
                     request.getEmail(),
                     buildEmail(request.getUsername(), link));
