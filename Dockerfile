@@ -1,12 +1,10 @@
 # syntax=docker/dockerfile:1.4
-# ← enable BuildKit features!
-
 FROM bellsoft/liberica-openjdk-debian:17.0.8 AS builder
 WORKDIR /application
 COPY . .
 
-# add an id to your cache mount
-RUN --mount=type=cache,id=gradle-cache,target=/root/.gradle \
+# <-- `id` here MUST begin with `myapp-gradle` to satisfy BuildKit
+RUN --mount=type=cache,id=myapp-gradle-root-grd,target=/root/.gradle \
     chmod +x gradlew && ./gradlew clean bootJar -x test
 
 FROM bellsoft/liberica-openjdk-debian:17.0.8 AS layers
