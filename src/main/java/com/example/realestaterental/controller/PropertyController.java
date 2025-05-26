@@ -23,7 +23,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/properties")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:3000", "https://realestaterental-8ce5c.firebaseapp.com/"})
+@CrossOrigin(origins = {"http://localhost:3000", "https://realestaterental-8ce5c.firebaseapp.com"})
 public class PropertyController {
     private final UserService userService;
     private final PropertyService propertyService;
