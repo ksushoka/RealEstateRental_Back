@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "api/v1/registration", produces = "application/json")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://realestaterental-8ce5c.firebaseapp.com/"})
 @RequiredArgsConstructor
 public class RegistrationRestController {
     private final RegistrationService registrationService;
